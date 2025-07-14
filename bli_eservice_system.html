@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>勞保局e化服務系統 - 個人登入</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+    }
+
+    .header-orange {
+      background: linear-gradient(90deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      padding: 15px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header-icon {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      opacity: 0.9;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.05); }
+      100% { transform: translateY(-50%) scale(1); }
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #666;
+      margin-bottom: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      color: #ff6b35;
+      transform: translateX(-5px);
+    }
+
+    .login-section {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+
+    .login-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .login-title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .login-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b35, #f7931e);
+      border-radius: 2px;
+    }
+
+    .login-left {
+      padding: 80px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-left::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .login-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.9;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .login-left h3 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .login-right {
+      padding: 80px 40px;
+    }
+
+    .login-methods {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .method-tab {
+      flex: 1;
+      padding: 15px 8px;
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .method-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .method-tab:hover::before {
+      left: 100%;
+    }
+
+    .method-tab.active {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      border-color: #ff6b35;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .method-tab:hover:not(.active) {
+      background: #e9ecef;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .mobile-auth-btn {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      border: none;
+      padding: 18px 45px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mobile-auth-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .mobile-auth-btn:hover::before {
+      left: 100%;
+    }
+
+    .mobile-auth-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+
+    .mobile-auth-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .info-alerts {
+      margin-top: 30px;
+    }
+
+    .alert-custom {
+      background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+      border: 1px solid #ffeaa7;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 15px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .alert-custom:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert-custom::before {
+      content: "ℹ";
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      color: #856404;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .alert-custom .alert-content {
+      margin-left: 25px;
+      color: #856404;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .alert-link {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .alert-link:hover {
+      color: #004499;
+      text-decoration: underline;
+    }
+
+    .bottom-section {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      padding: 50px 40px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .bottom-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .bottom-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .bottom-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b35, #f7931e);
+      border-radius: 2px;
+    }
+
+    .input-group-custom {
+      max-width: 500px;
+      margin: 0 auto 25px;
+    }
+
+    .form-control-custom {
+      border-radius: 15px;
+      padding: 15px 20px;
+      border: 2px solid #e9ecef;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control-custom:focus {
+      border-color: #ff6b35;
+      box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+      transform: scale(1.02);
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border: none;
+      padding: 15px 40px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-next:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* 系統主畫面樣式 */
+    .system-modal {
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .system-header {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 600px;
+      border-right: 1px solid #dee2e6;
+    }
+
+    .nav-link {
+      color: #495057;
+      padding: 12px 20px;
+      margin: 5px 0;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-link:hover {
+      background: rgba(0, 123, 255, 0.1);
+      color: #007bff;
+      transform: translateX(5px);
+      border-left-color: #007bff;
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      border-left-color: #007bff;
+    }
+
+    .search-card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .search-card:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .data-table {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .table th {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: none;
+      font-weight: 600;
+      color: #495057;
+      padding: 15px;
+    }
+
+    .table td {
+      padding: 15px;
+      vertical-align: middle;
+      border-color: #f1f3f4;
+    }
+
+    .status-paid {
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .status-unpaid {
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    .btn-detail {
+      background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: white;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-detail:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(23, 162, 184, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .login-left {
+        padding: 40px 20px;
+      }
+      
+      .login-right {
+        padding: 40px 20px;
+      }
+      
+      .login-methods {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .method-tab {
+        font-size: 0.85rem;
+      }
+      
+      .header-title {
+        font-size: 1.4rem;
+      }
+
+      .header-icon {
+        font-size: 1.5rem;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 橙色標頭 -->
+    <div class="header-orange position-relative">
+      <div class="container">
+        <h1 class="header-title">勞保局e化服務系統</h1>
+        <i class="fas fa-shield-alt header-icon"></i>
+      </div>
+    </div>
+
+    <!-- 主要內容 -->
+    <div class="main-container" v-show="!isLoggedIn">
+      <!-- 返回按鈕 -->
+      <button class="back-button" @click="goBack">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <!-- 登入區域 -->
+      <div class="login-section">
+        <div class="row g-0">
+          <!-- 左側 -->
+          <div class="col-md-4">
+            <div class="login-left">
+              <i class="fas fa-user-circle login-icon"></i>
+              <h3>個人登入</h3>
+            </div>
+          </div>
+          
+          <!-- 右側 -->
+          <div class="col-md-8">
+            <div class="login-right">
+              <h2 class="login-title">請選擇登入方式</h2>
+              
+              <!-- 登入方式選擇 -->
+              <div class="login-methods">
+                <div class="method-tab" :class="{ active: selectedMethod === '自然人憑證' }" @click="selectMethod('自然人憑證')">
+                  自然人憑證
+                </div>
+                <div class="method-tab" :class="{ active: selectedMethod === '虛擬勞保憑證' }" @click="selectMethod('虛擬勞保憑證')">
+                  虛擬勞保憑證
+                </div>
+                <div class="method-tab" :class="{ active: selectedMethod === '行動自然人憑證' }" @click="selectMethod('行動自然人憑證')">
+                  行動自然人憑證
+                </div>
+                <div class="method-tab" :class="{ active: selectedMethod === '金融電子憑證' }" @click="selectMethod('金融電子憑證')">
+                  金融電子憑證
+                </div>
+              </div>
+
+              <!-- 行動電話認證按鈕 -->
+              <div class="text-center mb-4">
+                <button class="mobile-auth-btn" @click="mobileAuth">
+                  <i class="fas fa-mobile-alt me-2"></i>
+                  行動電話認證
+                </button>
+              </div>
+
+              <!-- 資訊提示 -->
+              <div class="info-alerts">
+                <div class="alert-custom">
+                  <div class="alert-content">
+                    以行動電話登入，提供查詢功能(含確診COVID-19申辦)，若需進行申辦作業，請以其他方式登入。
+                  </div>
+                </div>
+                
+                <div class="alert-custom">
+                  <div class="alert-content">
+                    <a href="#" class="alert-link" @click="downloadManual">
+                      <i class="fas fa-download me-1"></i>
+                      行動電話認證操作手冊下載
+                    </a>
+                  </div>
+                </div>
+                
+                <div class="alert-custom">
+                  <div class="alert-content">
+                    <a href="#" class="alert-link" @click="watchVideo">
+                      <i class="fas fa-play-circle me-1"></i>
+                      行動電話認證教學影片
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部區域 -->
+      <div class="bottom-section">
+        <h3 class="bottom-title">請輸入以下欄位</h3>
+        <div class="input-group-custom">
+          <input 
+            type="text" 
+            class="form-control form-control-custom" 
+            placeholder="請輸入身分證字號或統一編號" 
+            v-model="idNumber"
+            @keyup.enter="proceedLogin"
+            maxlength="10"
+          >
+        </div>
+        <div>
+          <button class="btn btn-next" @click="proceedLogin" :disabled="!isValidId">
+            <i class="fas fa-arrow-right me-2"></i>
+            下一步
+          </button>
+        </div>
+        <div class="mt-3" v-if="idError">
+          <small class="text-danger">
+            <i class="fas fa-exclamation-triangle me-1"></i>
+            {{ idError }}
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- 成功登入後的畫面 -->
+    <div v-if="isLoggedIn" class="modal fade show d-block system-modal">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header system-header">
+            <h5 class="modal-title">
+              <i class="fas fa-tachometer-alt me-2"></i>
+              勞保局 E 化服務系統 - 個人服務
+            </h5>
+            <button type="button" class="btn-close btn-close-white" @click="logout"></button>
+          </div>
+          <div class="modal-body p-0">
+            <div class="container-fluid">
+              <div class="row">
+                <aside class="col-md-3 sidebar py-4">
+                  <div class="mb-4">
+                    <h6 class="text-muted px-3">
+                      <i class="fas fa-user me-2"></i>
+                      個人服務
+                    </h6>
+                  </div>
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link" :class="{ active: activeMenu === '保費查詢' }" href="#" @click="setActiveMenu('保費查詢')">
+                        <i class="fas fa-search me-2"></i> 保費查詢
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" :class="{ active: activeMenu === '投保明細' }" href="#" @click="setActiveMenu('投保明細')">
+                        <i class="fas fa-file-text me-2"></i> 投保明細
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" :class="{ active: activeMenu === '繳款單下載' }" href="#" @click="setActiveMenu('繳款單下載')">
+                        <i class="fas fa-download me-2"></i> 繳款單下載
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" :class="{ active: activeMenu === '電子帳單' }" href="#" @click="setActiveMenu('電子帳單')">
+                        <i class="fas fa-receipt me-2"></i> 電子帳單
+                      </a>
+                    </li>
+                  </ul>
+                </aside>
+
+                <main class="col-md-9 py-4">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0">
+                      <i class="fas fa-search text-primary me-2"></i>
+                      {{ activeMenu }}
+                    </h5>
+                    <div class="text-muted">
+                      <i class="fas fa-user-circle me-1"></i>
+                      {{ currentUser }}
+                    </div>
+                  </div>
+
+                  <!-- 保費查詢內容 -->
+                  <div v-if="activeMenu === '保費查詢'">
+                    <!-- 查詢表單 -->
+                    <div class="card search-card mb-4">
+                      <div class="card-body">
+                        <div class="row g-3">
+                          <div class="col-md-3">
+                            <label class="form-label">起始日期</label>
+                            <input type="date" class="form-control" v-model="startDate" />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">結束日期</label>
+                            <input type="date" class="form-control" v-model="endDate" />
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">保險類別</label>
+                            <select class="form-select" v-model="insuranceType">
+                              <option value="">全部</option>
+                              <option value="勞保">勞保</option>
+                              <option value="健保">健保</option>
+                              <option value="就保">就保</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" @click="filterData">
+                              <i class="fas fa-search me-1"></i> 查詢
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 結果統計 -->
+                    <div class="row mb-3">
+                      <div class="col-md-6">
+                        <div class="alert alert-info">
+                          <i class="fas fa-info-circle me-2"></i>
+                          <strong>查詢結果：</strong>共找到 {{ filteredList.length }} 筆資料
+                        </div>
+                      </div>
+                      <div class="col-md-6 text-end">
+                        <button class="btn btn-success me-2" @click="exportToExcel">
+                          <i class="fas fa-file-excel me-1"></i> 匯出 Excel
+                        </button>
+                        <button class="btn btn-outline-primary" @click="printTable">
+                          <i class="fas fa-print me-1"></i> 列印
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 資料表格 -->
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped data-table">
+                        <thead>
+                          <tr>
+                            <th>保險類別</th>
+                            <th>年月</th>
+                            <th>繳費金額 (元)</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(item, index) in filteredList" :key="index">
+                            <td>
+                              <span class="badge bg-primary">{{ item.type }}</span>
+                            </td>
+                            <td>{{ item.period }}</td>
+                            <td class="text-end">{{ item.amount }}</td>
+                            <td>
+                              <span :class="item.status === '已繳' ? 'status-paid' : 'status-unpaid'">
+                                <i :class="item.status === '已繳' ? 'fas fa-check-circle' : 'fas fa-times-circle'" class="me-1"></i>
+                                {{ item.status }}
+                              </span>
+                            </td>
+                            <td>
+                              <button class="btn btn-detail" @click="viewDetail(item)">
+                                <i class="fas fa-eye me-1"></i>
+                                詳細
+                              </button>
+                            </td>
+                          </tr>
+                          <tr v-if="filteredList.length === 0">
+                            <td colspan="5" class="text-muted text-center py-4">
+                              <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                              查無資料
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <!-- 其他選單內容 -->
+                  <div v-else class="text-center py-5">
+                    <i class="fas fa-tools fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">{{ activeMenu }}</h4>
+                    <p class="text-muted">此功能正在開發中...</p>
+                  </div>
+                </main>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3"></script>
+  
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          selectedMethod: '自然人憑證',
+          idNumber: '',
+          isLoggedIn: false,
+          currentUser: '',
+          activeMenu: '保費查詢',
+          startDate: '',
+          endDate: '',
+          insuranceType: '',
+          dataList: [],
+          filteredList: [],
+          idError: ''
+        };
+      },
+      computed: {
+        isValidId() {
+          const id = this.idNumber.trim();
+          if (!id) {
+            this.idError = '';
+            return false;
+          }
+          
+          // 基本身分證字號格式驗證
+          const pattern = /^[A-Z][1-2]\d{8}$/;
+          if (!pattern.test(id)) {
+            this.idError = '請輸入正確的身分證字號格式';
+            return false;
+          }
+          
+          this.idError = '';
+          return true;
+        }
+      },
+      methods: {
+        selectMethod(method) {
+          this.selectedMethod = method;
+        },
+        
+        goBack() {
+          this.showNotification('返回上一頁', 'info');
+        },
+        
+        mobileAuth() {
+          this.showNotification('啟動行動電話認證流程', 'info');
+        },
+        
